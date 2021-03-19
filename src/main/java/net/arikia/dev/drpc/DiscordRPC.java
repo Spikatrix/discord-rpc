@@ -152,8 +152,8 @@ public final class DiscordRPC {
 
 			try (InputStream in = DiscordRPC.class.getResourceAsStream(finalPath); OutputStream out = openOutputStream(f)) {
 				copyFile(in, out);
-				f.deleteOnExit();
 				tempDirectoryPath.toFile().deleteOnExit();
+				f.deleteOnExit();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
