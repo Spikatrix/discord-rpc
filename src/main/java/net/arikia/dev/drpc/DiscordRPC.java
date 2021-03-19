@@ -146,7 +146,7 @@ public final class DiscordRPC {
 		finalPath = "/" + dir + "/" + name;
 
 		try {
-			FileAttribute<Set<PosixFilePermission>> perms = PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rw-rw-r--"));
+			FileAttribute<Set<PosixFilePermission>> perms = PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rwxrwxr-x"));
 			Path tempDirectoryPath = Files.createTempDirectory(name, perms);
 			File f = new File(tempDirectoryPath + File.separator + name);
 
