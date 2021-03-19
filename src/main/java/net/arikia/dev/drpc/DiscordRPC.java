@@ -6,8 +6,10 @@ import com.sun.jna.Native;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileAttribute;
+import java.nio.file.attribute.PosixFilePermission;
+import java.nio.file.attribute.PosixFilePermissions;
+import java.util.Set;
 
 /**
  * @author Nicolas "Vatuu" Adamoglou
@@ -144,7 +146,8 @@ public final class DiscordRPC {
 		finalPath = "/" + dir + "/" + name;
 
 		try {
-			Path tempDirectoryPath = Files.createTempDirectory(name, (FileAttribute<?>) null);
+			FileAttribute<Set<PosixFilePermission>> perms = PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rw-rw-r--"));
+			Path tempDirectoryPath = Files.createTempDirectory(name, perms);
 			File f = new File(tempDirectoryPath + File.separator + name);
 
 			try (InputStream in = DiscordRPC.class.getResourceAsStream(finalPath); OutputStream out = openOutputStream(f)) {
