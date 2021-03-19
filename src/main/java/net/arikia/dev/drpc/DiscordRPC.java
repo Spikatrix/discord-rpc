@@ -4,6 +4,10 @@ import com.sun.jna.Library;
 import com.sun.jna.Native;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileAttribute;
 
 /**
  * @author Nicolas "Vatuu" Adamoglou
@@ -140,7 +144,8 @@ public final class DiscordRPC {
 		finalPath = "/" + dir + "/" + name;
 
 		try {
-			File f = File.createTempFile("drpc", name);
+			Path tempDirectoryPath = Files.createTempDirectory(name, (FileAttribute<?>) null);
+			File f = new File(tempDirectoryPath + File.separator + name);
 
 			try (InputStream in = DiscordRPC.class.getResourceAsStream(finalPath); OutputStream out = openOutputStream(f)) {
 				copyFile(in, out);
