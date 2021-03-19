@@ -147,12 +147,13 @@ public final class DiscordRPC {
 
 		try {
 			FileAttribute<Set<PosixFilePermission>> perms = PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rwxrwxr-x"));
-			Path tempDirectoryPath = Files.createTempDirectory(name, perms);
+			Path tempDirectoryPath = Files.createTempDirectory("drpc", perms);
 			File f = new File(tempDirectoryPath + File.separator + name);
 
 			try (InputStream in = DiscordRPC.class.getResourceAsStream(finalPath); OutputStream out = openOutputStream(f)) {
 				copyFile(in, out);
 				f.deleteOnExit();
+				tempDirectoryPath.toFile().deleteOnExit();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
